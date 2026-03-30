@@ -1,0 +1,37 @@
+---
+/*
+  Homepage — the landing page for the AMPA website.
+  Uses BaseLayout for the shared HTML shell and HeroSection
+  for the big welcome banner.
+*/
+
+import BaseLayout from "../layouts/base-layout.astro";
+import HeroSection from "../components/hero-section.astro";
+---
+
+<BaseLayout title="AMPA — Asociación de Madres y Padres de Alumnos">
+  <!-- Hero banner -->
+  <HeroSection
+    heading="Bienvenidos al AMPA"
+    subtitle="Somos la Asociación de Madres y Padres de Alumnos. Trabajamos juntos para crear un entorno educativo más enriquecedor, seguro y participativo para nuestros hijos e hijas."
+    ctaText="Conócenos"
+    ctaHref="/quienes-somos"
+  />
+
+  <!-- Mission statement section -->
+  <section class="mx-auto max-w-3xl px-4 py-16 md:py-24">
+    <h2 class="text-2xl font-bold text-primary-700 md:text-3xl">
+      Nuestra misión
+    </h2>
+    <p class="mt-4 text-lg leading-relaxed text-gray-600">
+      Creemos que la educación es una tarea compartida entre familias y escuela.
+      Nuestra misión es fomentar la participación activa de las familias en la
+      vida escolar, organizar actividades que fortalezcan la comunidad educativa
+      y ser un puente de comunicación entre padres, madres y el centro escolar.
+    </p>
+    <p class="mt-4 text-lg leading-relaxed text-gray-600">
+      Juntos, construimos un colegio donde cada familia se siente escuchada,
+      cada niño y niña cuenta, y cada idea tiene un espacio para crecer.
+    </p>
+  </section>
+</BaseLayout>

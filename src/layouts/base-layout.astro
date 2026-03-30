@@ -1,0 +1,45 @@
+---
+/*
+  BaseLayout: The shared HTML wrapper for every page on the site.
+  It handles <head> meta tags, imports the global CSS (Tailwind),
+  and provides a <slot /> where each page injects its own content.
+
+  Props:
+  - title: the text shown in the browser tab
+  - description: the meta description for SEO / social sharing
+*/
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "AMPA — Asociación de Madres y Padres de Alumnos. Juntos construimos una comunidad educativa más fuerte.",
+} = Astro.props;
+
+// Import global CSS so Tailwind is available on every page
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-white text-gray-800 font-sans">
+    <!--
+      For now, the page content goes directly inside <main>.
+      We'll add a shared Header and Footer component later.
+    -->
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
