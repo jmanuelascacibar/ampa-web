@@ -1,0 +1,202 @@
+---
+/*
+  Actividades — The projects and initiatives page.
+  Shows the AMPA's current projects with their descriptions,
+  impact, and future plans. Each project is displayed as a card
+  with a numbered badge and accent left border.
+*/
+
+import BaseLayout from "../layouts/base-layout.astro";
+import ProjectCard from "../components/project-card.astro";
+
+/*
+  Project data for the AMPA's current initiatives.
+  Each project has: number, title, description, impact (optional),
+  futurePlans (array), and an icon emoji for the badge.
+*/
+const projects = [
+  {
+    number: 1,
+    icon: "🏫",
+    title: "Fondo de Transformación Escolar",
+    description:
+      "Inversiones destinadas a la mejora de la comunidad escolar: aportación para la adquisición de elementos de apoyo y mejora para el Colegio con un impacto positivo directo en todas las familias (megafonía, ayuda a familias «sensibles»...).",
+    impact:
+      "Mejora directa de la comunidad escolar y las familias.",
+    futurePlans: [
+      "Accede / Banco de Uniformes y libros (en marcha)",
+      "Plan Familia Tutor: acompañando a las nuevas familias en su incorporación al Colegio — Plan de acogida",
+    ],
+  },
+  {
+    number: 2,
+    icon: "🤝",
+    title: "Proyecto Solidario",
+    description:
+      "A través y de la mano con el Colegio, participamos en donaciones y campañas solidarias que refuerzan los valores de nuestra comunidad educativa.",
+    futurePlans: [
+      "Nuestro Desayuno Solidario",
+    ],
+  },
+  {
+    number: 3,
+    icon: "📣",
+    title: "Posicionamiento en el Barrio",
+    description:
+      "Participación activa en eventos y concursos de la Junta del Distrito para dar visibilidad al colegio y conectar con el barrio.",
+    impact:
+      "Plan de Comunicación del AMPA: boletines, presencia en redes, mayor cercanía con las familias.",
+    futurePlans: [
+      "Proyecto «El Catas está abierto» — apertura del colegio el fin de semana",
+      "Visibilidad a través de la apertura del Colegio para acoger formación propuesta por la Junta del Distrito",
+    ],
+  },
+  {
+    number: 4,
+    icon: "📚",
+    title: "Fomento de la Cultura y Actividades Saludables",
+    description:
+      "Fomento de la cultura a través de nuestra Feria del Libro y de las actividades saludables para toda la comunidad.",
+    impact:
+      "Gracias a la asistencia de autores, cuentacuentos locales, participación en concursos de la Junta del Distrito, la gran merienda... A través del fomento del deporte y buenos hábitos.",
+    futurePlans: [
+      "Colaboración con el Centro en las actividades de la Escuela de Padres",
+      "Iniciativas deportivas para alumnos y familias",
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Actividades y proyectos — AMPA Colegio Santa Catalina de Sena"
+  description="Descubre los proyectos e iniciativas del AMPA: Fondo de Transformación Escolar, Proyecto Solidario, Posicionamiento en el Barrio y Fomento de la Cultura."
+>
+  <!--
+    ============================================================
+    HERO — Dark burgundy gradient, matching other pages
+    ============================================================
+  -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 px-4 py-24 md:py-32">
+    <div class="absolute -top-20 -right-20 h-96 w-96 rounded-full bg-primary-600/20 blur-3xl"></div>
+    <div class="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-accent-200/10 blur-3xl"></div>
+
+    <div class="relative mx-auto max-w-3xl text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl">
+        Nuestros proyectos
+      </h1>
+      <div class="mx-auto mt-4 h-1 w-20 rounded-full bg-accent-200"></div>
+      <p class="mt-8 text-lg leading-relaxed text-white/85 md:text-xl">
+        Estas son las líneas de trabajo del AMPA para construir una comunidad
+        educativa más fuerte, solidaria y conectada con su entorno.
+      </p>
+    </div>
+  </section>
+
+  <!--
+    ============================================================
+    PROJECTS GRID — Current initiatives on warm gray background
+    ============================================================
+  -->
+  <section class="bg-gray-50 px-4 py-16 md:py-24">
+    <div class="mx-auto max-w-4xl">
+      <div class="text-center">
+        <h2 class="heading-underline heading-underline-center text-2xl font-bold text-primary-700 md:text-3xl">
+          Proyectos en marcha
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-body-light">
+          Iniciativas activas en las que el AMPA trabaja cada día por las
+          familias y el colegio.
+        </p>
+      </div>
+
+      <!--
+        Project cards — stacked vertically with generous spacing.
+        Single column works best here because each card has rich content
+        (description + impact + future plans) that needs room to breathe.
+      -->
+      <div class="mt-12 grid grid-cols-1 gap-8">
+        {projects.map((project) => (
+          <ProjectCard
+            number={project.number}
+            icon={project.icon}
+            title={project.title}
+            description={project.description}
+            impact={project.impact}
+            futurePlans={project.futurePlans}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!--
+    ============================================================
+    LOOKING AHEAD — Summary of all future plans in one glance
+    ============================================================
+  -->
+  <section class="px-4 py-16 md:py-24">
+    <div class="mx-auto max-w-3xl">
+      <div class="text-center">
+        <h2 class="heading-underline heading-underline-center text-2xl font-bold text-primary-700 md:text-3xl">
+          Mirando al futuro
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-body-light">
+          Estos son algunos de los proyectos e ideas que estamos preparando
+          para los próximos meses.
+        </p>
+      </div>
+
+      <!-- Future plans summary grid — 2 columns on desktop -->
+      <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <!--
+          Each future initiative gets a small card with an accent-colored
+          left border and a brief description.
+        -->
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5">
+          <p class="font-semibold text-body">Banco de Uniformes y Libros</p>
+          <p class="mt-1 text-sm text-body-light">Reutilización solidaria de uniformes y material escolar entre familias.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5">
+          <p class="font-semibold text-body">Plan Familia Tutor</p>
+          <p class="mt-1 text-sm text-body-light">Programa de acogida para acompañar a las nuevas familias del colegio.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5">
+          <p class="font-semibold text-body">Desayuno Solidario</p>
+          <p class="mt-1 text-sm text-body-light">Evento benéfico para recaudar fondos destinados a campañas solidarias.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5">
+          <p class="font-semibold text-body">El Catas está abierto</p>
+          <p class="mt-1 text-sm text-body-light">Apertura del colegio los fines de semana para actividades abiertas al barrio.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5">
+          <p class="font-semibold text-body">Escuela de Padres</p>
+          <p class="mt-1 text-sm text-body-light">Colaboración con el Centro en talleres formativos para familias.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5">
+          <p class="font-semibold text-body">Iniciativas Deportivas</p>
+          <p class="mt-1 text-sm text-body-light">Nuevas actividades deportivas para promover hábitos saludables entre alumnos y familias.</p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-12 text-center">
+        <p class="text-lg text-body-light">
+          ¿Quieres participar o proponer una nueva iniciativa?
+        </p>
+        <div class="mt-6">
+          <a
+            href="/contacto"
+            class="inline-block rounded-full bg-primary-600 px-8 py-3 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-accent-200 hover:text-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+          >
+            Contacta con nosotros
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

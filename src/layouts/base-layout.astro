@@ -21,6 +21,10 @@ const {
 
 // Import global CSS so Tailwind is available on every page
 import "../styles/global.css";
+
+// Shared components shown on every page
+import SiteHeader from "../components/site-header.astro";
+import SiteFooter from "../components/site-footer.astro";
 ---
 
 <!doctype html>
@@ -33,13 +37,12 @@ import "../styles/global.css";
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class="min-h-screen bg-white text-gray-800 font-sans">
-    <!--
-      For now, the page content goes directly inside <main>.
-      We'll add a shared Header and Footer component later.
-    -->
+  <!-- Body uses the dark charcoal color (--color-body) from the school's palette -->
+  <body class="min-h-screen bg-white text-body font-sans">
+    <SiteHeader />
     <main>
       <slot />
     </main>
+    <SiteFooter />
   </body>
 </html>

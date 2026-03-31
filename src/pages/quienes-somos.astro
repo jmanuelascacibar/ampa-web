@@ -1,0 +1,199 @@
+---
+/*
+  Quiénes somos — The "About Us" page for the AMPA website.
+  Two main sections:
+    1. An intro explaining the AMPA's mission and role in the school community
+    2. The Junta Directiva (board of directors) displayed as a card grid
+
+  Uses BaseLayout for the shared HTML shell and TeamCard for each
+  board member. Follows the same layout patterns as index.astro.
+*/
+
+import BaseLayout from "../layouts/base-layout.astro";
+import TeamCard from "../components/team-card.astro";
+
+/*
+  Team member data for the Junta Directiva.
+  Each entry has: name, role, description, initials, and a placeholder photo.
+
+  The photo URLs use i.pravatar.cc — a free service that returns consistent
+  random portraits. Each ?img=N number gives a different face.
+  TODO: Replace these with real photos (Cloudinary URLs) when available.
+*/
+const teamMembers = [
+  {
+    name: "Mª. Asunción López de las Hazas Parrón",
+    role: "Presidencia",
+    description:
+      "Representa al AMPA ante el colegio y las instituciones. Coordina la Junta Directiva y lidera las iniciativas de la asociación.",
+    initials: "AL",
+    photo: "https://i.pravatar.cc/150?img=32",
+  },
+  {
+    name: "Beatriz Rodríguez",
+    role: "Vicepresidencia",
+    description:
+      "Apoya a la presidencia y asume sus funciones en su ausencia. Colabora en la coordinación general de la asociación.",
+    initials: "BR",
+    photo: "https://i.pravatar.cc/150?img=23",
+  },
+  {
+    name: "Pilar Nuevo",
+    role: "Secretaría",
+    description:
+      "Gestiona las actas, la documentación oficial y las comunicaciones formales de la asociación.",
+    initials: "PN",
+    photo: "https://i.pravatar.cc/150?img=44",
+  },
+  {
+    name: "Marta Cantó",
+    role: "Vicesecretaría",
+    description:
+      "Apoya las tareas de secretaría y asegura la continuidad administrativa de la asociación.",
+    initials: "MC",
+    photo: "https://i.pravatar.cc/150?img=47",
+  },
+  {
+    name: "Hugo Ascacíbar",
+    role: "Tesorería",
+    description:
+      "Administra los recursos económicos del AMPA, gestiona las cuotas y supervisa la contabilidad.",
+    initials: "HA",
+    photo: "https://i.pravatar.cc/150?img=53",
+  },
+  {
+    name: "Morelmy Ortiz y María Díaz",
+    role: "Vocalía de Comunicación",
+    description:
+      "Gestionan las redes sociales, el boletín informativo y la comunicación con las familias.",
+    initials: "MM",
+    photo: "https://i.pravatar.cc/150?img=25",
+  },
+  {
+    name: "Rus de la Puente",
+    role: "Vocalía de Cultura y Deporte",
+    description:
+      "Organiza actividades culturales, deportivas y de ocio para alumnos y familias.",
+    initials: "RP",
+    photo: "https://i.pravatar.cc/150?img=16",
+  },
+  {
+    name: "Pilar Nuevo y Patricia de Oliveira",
+    role: "Vocalía de Pastoral",
+    description:
+      "Coordinan las actividades relacionadas con la dimensión espiritual y solidaria del colegio.",
+    initials: "PP",
+    photo: "https://i.pravatar.cc/150?img=5",
+  },
+  {
+    name: "Asunción Lopez-Hazas y Miriam Carrió",
+    role: "Vocalía de RRHH y Eventos",
+    description:
+      "Organizan los eventos del AMPA y gestionan la participación de voluntarios.",
+    initials: "AM",
+    photo: "https://i.pravatar.cc/150?img=9",
+  },
+];
+---
+
+<BaseLayout
+  title="Quiénes somos — AMPA Colegio Santa Catalina de Sena"
+  description="Conoce al equipo del AMPA del Colegio Santa Catalina de Sena. Descubre nuestra misión, valores y la Junta Directiva que trabaja por la comunidad educativa."
+>
+  <!--
+    ============================================================
+    SECTION 1 — Intro del AMPA
+    A hero-style introduction with dark burgundy gradient background,
+    matching the homepage hero styling for visual consistency.
+    ============================================================
+  -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 px-4 py-24 md:py-32">
+    <!-- Decorative background shapes — same style as hero-section.astro -->
+    <div class="absolute -top-20 -right-20 h-96 w-96 rounded-full bg-primary-600/20 blur-3xl"></div>
+    <div class="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-accent-200/10 blur-3xl"></div>
+
+    <div class="relative mx-auto max-w-3xl text-center">
+      <!-- Page heading — the only h1 on this page -->
+      <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl">
+        Quiénes somos
+      </h1>
+
+      <!-- Decorative accent bar beneath the heading -->
+      <div class="mx-auto mt-4 h-1 w-20 rounded-full bg-accent-200"></div>
+
+      <!-- Association name as a prominent subtitle -->
+      <p class="mt-8 text-lg font-semibold uppercase tracking-wide text-accent-200 md:text-xl">
+        Asociación de Madres y Padres de Alumnos (AMPA)
+      </p>
+
+      <!-- Tagline -->
+      <p class="mt-4 text-xl font-medium text-white/90 md:text-2xl">
+        Un vínculo vivo entre las familias y la vida del colegio
+      </p>
+
+      <!-- Body paragraphs — slightly transparent white for softer contrast -->
+      <p class="mt-8 text-base leading-relaxed text-white/80 md:text-lg">
+        El AMPA del Colegio Santa Catalina de Sena desempeña una labor fundamental
+        en la comunidad educativa, colaborando activamente con el centro para
+        mejorar la calidad de la enseñanza y el bienestar del alumnado.
+      </p>
+
+      <p class="mt-4 text-base leading-relaxed text-white/80 md:text-lg">
+        A través de la participación de las familias, el AMPA impulsa actividades
+        educativas, culturales y solidarias, apoya iniciativas del colegio y
+        fomenta un clima de cooperación y diálogo entre padres, profesorado y
+        equipo directivo, contribuyendo así al desarrollo integral de los
+        estudiantes.
+      </p>
+    </div>
+  </section>
+
+  <!--
+    ============================================================
+    SECTION 2 — Junta Directiva
+    A responsive grid of team member cards on a warm gray background.
+    Cards are white with subtle shadows for contrast against bg-gray-50.
+    ============================================================
+  -->
+  <section class="bg-gray-50 px-4 py-16 md:py-24">
+    <div class="mx-auto max-w-4xl">
+      <!-- Section heading with the decorative underline bar -->
+      <div class="text-center">
+        <h2 class="heading-underline heading-underline-center text-2xl font-bold text-primary-700 md:text-3xl">
+          Nuestra Junta Directiva
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-body-light">
+          Las personas que trabajan cada día por nuestra comunidad educativa
+        </p>
+      </div>
+
+      <!--
+        Team member card grid.
+        Mobile: 1 column (stacked).
+        Desktop (md+): 2 columns side by side.
+        The gap provides generous spacing between cards.
+      -->
+      <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+        {teamMembers.map((member) => (
+          <TeamCard
+            name={member.name}
+            role={member.role}
+            description={member.description}
+            initials={member.initials}
+            photo={member.photo}
+          />
+        ))}
+      </div>
+
+      <!-- CTA button — centered, pill-shaped, burgundy with lime-green hover -->
+      <div class="mt-16 text-center">
+        <a
+          href="/contacto"
+          class="inline-block rounded-full bg-primary-600 px-8 py-3 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-accent-200 hover:text-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        >
+          Contacta con nosotros
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+/*
+  Noticias listing page — shows all articles sorted newest-first.
+  Uses Astro's content collections API to fetch articles from
+  src/content/articles/ and renders them as a responsive card grid.
+*/
+
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/base-layout.astro";
+import ArticleCard from "../../components/article-card.astro";
+
+// Fetch all articles and sort by date (newest first)
+const articles = await getCollection("articles");
+articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout
+  title="Noticias — AMPA Colegio Santa Catalina de Sena"
+  description="Últimas noticias, novedades y actividades del AMPA del Colegio Santa Catalina de Sena."
+>
+  <!--
+    ============================================================
+    HERO — Dark burgundy gradient, matching other pages
+    ============================================================
+  -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 px-4 py-24 md:py-32">
+    <!-- Decorative background shapes -->
+    <div class="absolute -top-20 -right-20 h-96 w-96 rounded-full bg-primary-600/20 blur-3xl"></div>
+    <div class="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-accent-200/10 blur-3xl"></div>
+
+    <div class="relative mx-auto max-w-3xl text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl">
+        Noticias del AMPA
+      </h1>
+      <div class="mx-auto mt-4 h-1 w-20 rounded-full bg-accent-200"></div>
+      <p class="mt-8 text-lg leading-relaxed text-white/85 md:text-xl">
+        Mantente al día de las novedades, eventos y actividades de nuestra
+        comunidad educativa.
+      </p>
+    </div>
+  </section>
+
+  <!--
+    ============================================================
+    ARTICLE GRID — Cards on a warm gray background
+    ============================================================
+  -->
+  <section class="bg-gray-50 px-4 py-16 md:py-24">
+    <div class="mx-auto max-w-6xl">
+      <!-- Section heading with decorative underline -->
+      <div class="text-center">
+        <h2 class="heading-underline heading-underline-center text-2xl font-bold text-primary-700 md:text-3xl">
+          Últimas noticias
+        </h2>
+      </div>
+
+      <!--
+        Responsive grid:
+        - Mobile: 1 column
+        - Tablet (md): 2 columns
+        - Desktop (lg): 3 columns
+      -->
+      <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {articles.map((article) => (
+          <ArticleCard
+            title={article.data.title}
+            date={article.data.date}
+            excerpt={article.data.excerpt}
+            author={article.data.author}
+            featuredImage={article.data.featuredImage}
+            slug={article.id}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,1 @@
+- [Design direction](project_design_direction.md) — burgundy + lime-green palette matching Dominicas Madrid school site

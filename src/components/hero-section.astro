@@ -1,7 +1,9 @@
 ---
 /*
-  HeroSection: The big welcome banner at the top of the homepage.
-  It shows a heading, a subtitle, and a call-to-action button.
+  HeroSection: A bold, full-width welcome banner inspired by the
+  Dominicas Madrid site. Uses a dark burgundy background with a
+  subtle gradient overlay, white text, and a pill-shaped CTA button
+  that highlights in lime green on hover.
 
   Props:
   - heading: the large title text
@@ -25,24 +27,41 @@ const {
 } = Astro.props;
 ---
 
-<!-- Full-width hero section with a soft gradient background -->
-<section class="relative bg-gradient-to-br from-primary-50 via-white to-accent-50 py-20 px-4 md:py-32">
-  <div class="mx-auto max-w-3xl text-center">
-    <!-- Main heading — only h1 on the page -->
-    <h1 class="text-4xl font-extrabold tracking-tight text-primary-800 md:text-5xl lg:text-6xl">
+<!--
+  Hero section with a dark burgundy-to-charcoal gradient.
+  This creates the bold, institutional feel of the school site
+  while keeping the text highly readable on the dark background.
+-->
+<section class="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 py-24 px-4 md:py-36">
+  <!--
+    Decorative background shape — a subtle, large semi-transparent circle.
+    This adds visual depth without distracting from the content.
+  -->
+  <div class="absolute -top-20 -right-20 h-96 w-96 rounded-full bg-primary-600/20 blur-3xl"></div>
+  <div class="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-accent-200/10 blur-3xl"></div>
+
+  <div class="relative mx-auto max-w-3xl text-center">
+    <!-- Main heading — only h1 on the page, white on dark background -->
+    <h1 class="text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl">
       {heading}
     </h1>
 
-    <!-- Subtitle paragraph with generous spacing -->
-    <p class="mt-6 text-lg leading-relaxed text-gray-600 md:text-xl">
+    <!--
+      Decorative underline bar beneath the heading.
+      Uses the lime/chartreuse accent color for a pop of contrast.
+    -->
+    <div class="mx-auto mt-4 h-1 w-20 rounded-full bg-accent-200"></div>
+
+    <!-- Subtitle paragraph — slightly transparent white for softer contrast -->
+    <p class="mt-8 text-lg leading-relaxed text-white/85 md:text-xl">
       {subtitle}
     </p>
 
-    <!-- Call-to-action button -->
+    <!-- CTA button: pill-shaped, white text on burgundy, lime-green on hover -->
     <div class="mt-10">
       <a
         href={ctaHref}
-        class="inline-block rounded-full bg-primary-600 px-8 py-3 text-lg font-semibold text-white shadow-md transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        class="inline-block rounded-full border-2 border-white bg-transparent px-8 py-3 text-lg font-semibold text-white shadow-md transition-all duration-300 hover:border-accent-200 hover:bg-accent-200 hover:text-primary-900 focus:outline-none focus:ring-2 focus:ring-accent-200 focus:ring-offset-2 focus:ring-offset-primary-800"
       >
         {ctaText}
       </a>

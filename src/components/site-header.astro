@@ -1,0 +1,125 @@
+---
+/*
+  SiteHeader: The navigation bar shown at the top of every page.
+  Features the AMPA logo on the left and navigation links on the right.
+  On mobile, a hamburger button toggles the menu open/closed.
+
+  Inspired by the Dominicas Madrid site: solid white background, clean layout,
+  sticky positioning so it stays visible while scrolling.
+*/
+
+/* Navigation links — easy to update as we add new pages */
+const navLinks = [
+  { label: "Inicio", href: "/" },
+  { label: "Noticias", href: "/noticias" },
+  { label: "Actividades", href: "/actividades" },
+  { label: "Quiénes somos", href: "/quienes-somos" },
+  { label: "Contacto", href: "/contacto" },
+];
+---
+
+<!--
+  Sticky header: stays at the top of the viewport as the user scrolls.
+  Uses solid white (bg-white) so the logo and text stay fully opaque
+  and there's no transparency bleed-through from the page below.
+-->
+<header class="sticky top-0 z-50 border-b border-gray-100 bg-white shadow-sm">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+    <!-- Logo — links back to homepage -->
+    <a href="/" class="flex shrink-0 items-center gap-3" aria-label="Ir al inicio">
+      <img
+        src="/logo-ampa.png"
+        alt="Logo AMPA Colegio Santa Catalina de Sena"
+        class="h-12 w-auto md:h-14"
+        loading="eager"
+      />
+    </a>
+
+    <!--
+      Desktop navigation — hidden on mobile, shown from md: breakpoint up.
+      Links use the dark charcoal body color and turn burgundy on hover.
+    -->
+    <nav class="hidden md:block" aria-label="Navegación principal">
+      <ul class="flex items-center gap-1">
+        {navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="rounded-lg px-3 py-2 text-sm font-medium text-body transition-colors hover:bg-primary-50 hover:text-primary-600"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!--
+      Mobile hamburger button — visible only on small screens.
+      Uses a tiny bit of inline JS to toggle the mobile menu.
+      The three lines become an X when the menu is open.
+    -->
+    <button
+      id="mobile-menu-toggle"
+      type="button"
+      class="inline-flex items-center justify-center rounded-lg p-2 text-body transition-colors hover:bg-primary-50 hover:text-primary-600 md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Abrir menú de navegación"
+    >
+      <!-- Hamburger icon (three lines) -->
+      <svg id="icon-menu" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+      <!-- Close icon (X) — hidden by default -->
+      <svg id="icon-close" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!--
+    Mobile menu panel — hidden by default, toggled by the hamburger button.
+    Slides down from the header with a subtle border on top.
+  -->
+  <nav
+    id="mobile-menu"
+    class="hidden border-t border-gray-100 bg-white md:hidden"
+    aria-label="Navegación principal (móvil)"
+  >
+    <ul class="space-y-1 px-4 py-4">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="block rounded-lg px-3 py-2.5 text-base font-medium text-body transition-colors hover:bg-primary-50 hover:text-primary-600"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<!--
+  Minimal inline script to toggle the mobile menu.
+  This is the only JavaScript on the page — Astro keeps things static by default.
+-->
+<script>
+  const toggle = document.getElementById("mobile-menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const iconMenu = document.getElementById("icon-menu");
+  const iconClose = document.getElementById("icon-close");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = menu?.classList.toggle("hidden") === false;
+
+    // Swap the hamburger / X icons
+    iconMenu?.classList.toggle("hidden", isOpen);
+    iconClose?.classList.toggle("hidden", !isOpen);
+
+    // Update aria attribute for accessibility
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+</script>

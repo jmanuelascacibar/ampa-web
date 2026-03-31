@@ -1,0 +1,104 @@
+---
+/*
+  Individual article page — renders the full content of a single article.
+  Uses getStaticPaths() because the site is statically built (no SSR).
+  Astro generates one HTML file per article at build time.
+*/
+
+import { getCollection, render } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/base-layout.astro";
+
+// Tell Astro which pages to generate — one per article
+export const getStaticPaths = (async () => {
+  const articles = await getCollection("articles");
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}) satisfies GetStaticPaths;
+
+// Get the article from props and render its markdown body
+const { article } = Astro.props;
+const { Content } = await render(article);
+
+// Format the date in Spanish: "15 de noviembre de 2025"
+const formattedDate = article.data.date.toLocaleDateString("es-ES", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<BaseLayout
+  title={`${article.data.title} — Noticias AMPA`}
+  description={article.data.excerpt}
+>
+  <article class="mx-auto max-w-3xl px-4 py-12 md:py-20">
+    <!--
+      "Back to listing" link at the top.
+      The ← arrow is a unicode character, not an icon library dependency.
+    -->
+    <a
+      href="/noticias"
+      class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 transition-colors hover:text-primary-800"
+    >
+      ← Volver a noticias
+    </a>
+
+    <!-- Featured image — full width, rounded, with shadow -->
+    <img
+      src={article.data.featuredImage}
+      alt={article.data.title}
+      class="mt-6 aspect-video w-full rounded-2xl object-cover shadow-md"
+    />
+
+    <!-- Article title -->
+    <h1 class="mt-8 text-3xl font-extrabold text-body md:text-4xl">
+      {article.data.title}
+    </h1>
+
+    <!-- Meta line: date and author -->
+    <p class="mt-4 text-base text-body-light">
+      <time datetime={article.data.date.toISOString()}>{formattedDate}</time>
+      <span class="mx-2">·</span>
+      <span class="font-semibold text-accent-600">{article.data.author}</span>
+    </p>
+
+    <!-- Tags as small pill badges -->
+    <div class="mt-4 flex flex-wrap gap-2">
+      {article.data.tags.map((tag) => (
+        <span class="inline-block rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700">
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <!--
+      Rendered markdown body.
+      The "prose" classes come from @tailwindcss/typography and handle
+      all the styling for headings, paragraphs, lists, tables, links, etc.
+      The extra prose-* modifiers match our site's color theme.
+    -->
+    <div class="prose prose-lg mt-10 max-w-none prose-headings:text-body prose-a:text-primary-600 prose-strong:text-body prose-th:text-body">
+      <Content />
+    </div>
+
+    <!-- Bottom navigation -->
+    <div class="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 pt-8">
+      <a
+        href="/noticias"
+        class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 transition-colors hover:text-primary-800"
+      >
+        ← Volver a noticias
+      </a>
+
+      <a
+        href="/contacto"
+        class="inline-block rounded-full bg-primary-600 px-6 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent-200 hover:text-primary-900"
+      >
+        Contacta con nosotros
+      </a>
+    </div>
+  </article>
+</BaseLayout>

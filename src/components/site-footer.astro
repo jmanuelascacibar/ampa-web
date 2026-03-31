@@ -1,0 +1,98 @@
+---
+/*
+  SiteFooter: Shown at the bottom of every page.
+  Contains three columns:
+    1. Short description of the AMPA
+    2. Quick navigation links
+    3. Contact information
+  Plus a bottom bar with copyright.
+
+  The dark burgundy background anchors the page and gives a
+  polished, complete feel matching the school's site style.
+*/
+
+/* Footer navigation — mirrors the header links */
+const footerLinks = [
+  { label: "Inicio", href: "/" },
+  { label: "Noticias", href: "/noticias" },
+  { label: "Actividades", href: "/actividades" },
+  { label: "Quiénes somos", href: "/quienes-somos" },
+  { label: "Contacto", href: "/contacto" },
+];
+
+// Current year for copyright — calculated at build time
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-primary-900 text-white/80">
+  <!--
+    Main footer content — three columns on desktop, stacked on mobile.
+    The max-w-6xl keeps it aligned with the header width.
+  -->
+  <div class="mx-auto max-w-6xl px-4 py-12 md:py-16">
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-3">
+      <!-- Column 1: About the AMPA -->
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-white">
+          AMPA
+        </h3>
+        <p class="mt-4 text-sm leading-relaxed">
+          Asociación de Madres y Padres de Alumnos del Colegio Santa Catalina
+          de Sena. Trabajamos juntos por una comunidad educativa más fuerte.
+        </p>
+      </div>
+
+      <!-- Column 2: Quick navigation links -->
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-white">
+          Navegación
+        </h3>
+        <ul class="mt-4 space-y-2">
+          {footerLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm transition-colors hover:text-accent-200"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact information -->
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-white">
+          Contacto
+        </h3>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li class="flex items-start gap-2">
+            <!-- Location pin icon -->
+            <svg class="mt-0.5 h-4 w-4 min-w-4 text-accent-200" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+            </svg>
+            <span>Colegio Santa Catalina de Sena, Madrid</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <!-- Envelope icon -->
+            <svg class="mt-0.5 h-4 w-4 min-w-4 text-accent-200" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+            </svg>
+            <a href="mailto:ampa@colegiosantacatalina.es" class="transition-colors hover:text-accent-200">
+              ampa@colegiosantacatalina.es
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar with copyright -->
+  <div class="border-t border-white/10 px-4 py-4">
+    <p class="text-center text-xs text-white/50">
+      &copy; {currentYear} AMPA Colegio Santa Catalina de Sena. Todos los derechos reservados.
+    </p>
+  </div>
+</footer>

@@ -1,37 +1,274 @@
 ---
 /*
   Homepage — the landing page for the AMPA website.
-  Uses BaseLayout for the shared HTML shell and HeroSection
-  for the big welcome banner.
+  Uses BaseLayout for the shared HTML shell, HeroSection for the
+  welcome banner, and shows a preview of the latest 3 articles.
 */
 
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/base-layout.astro";
-import HeroSection from "../components/hero-section.astro";
+import ArticleCard from "../components/article-card.astro";
+
+// Fetch the 3 most recent articles for the preview section
+const allArticles = await getCollection("articles");
+allArticles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const latestArticles = allArticles.slice(0, 3);
 ---
 
 <BaseLayout title="AMPA — Asociación de Madres y Padres de Alumnos">
-  <!-- Hero banner -->
-  <HeroSection
-    heading="Bienvenidos al AMPA"
-    subtitle="Somos la Asociación de Madres y Padres de Alumnos. Trabajamos juntos para crear un entorno educativo más enriquecedor, seguro y participativo para nuestros hijos e hijas."
-    ctaText="Conócenos"
-    ctaHref="/quienes-somos"
-  />
+  <!--
+    ============================================================
+    HERO — Custom homepage hero with full AMPA presentation.
+    Built inline because the content is richer than what the
+    reusable HeroSection component supports (bullet points, etc.)
+    ============================================================
+  -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 py-24 px-4 md:py-36">
+    <!-- Decorative background shapes -->
+    <div class="absolute -top-20 -right-20 h-96 w-96 rounded-full bg-primary-600/20 blur-3xl"></div>
+    <div class="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-accent-200/10 blur-3xl"></div>
 
-  <!-- Mission statement section -->
-  <section class="mx-auto max-w-3xl px-4 py-16 md:py-24">
-    <h2 class="text-2xl font-bold text-primary-700 md:text-3xl">
-      Nuestra misión
-    </h2>
-    <p class="mt-4 text-lg leading-relaxed text-gray-600">
-      Creemos que la educación es una tarea compartida entre familias y escuela.
-      Nuestra misión es fomentar la participación activa de las familias en la
-      vida escolar, organizar actividades que fortalezcan la comunidad educativa
-      y ser un puente de comunicación entre padres, madres y el centro escolar.
-    </p>
-    <p class="mt-4 text-lg leading-relaxed text-gray-600">
-      Juntos, construimos un colegio donde cada familia se siente escuchada,
-      cada niño y niña cuenta, y cada idea tiene un espacio para crecer.
-    </p>
+    <div class="relative mx-auto max-w-3xl text-center">
+      <!-- Main heading -->
+      <h1 class="text-3xl font-extrabold tracking-tight text-white md:text-4xl lg:text-5xl">
+        Bienvenidos a la Asociación de Madres y Padres de Alumnos del Colegio Santa Catalina de Sena
+      </h1>
+
+      <!-- Decorative accent bar -->
+      <div class="mx-auto mt-6 h-1 w-20 rounded-full bg-accent-200"></div>
+
+      <!-- Intro paragraph -->
+      <p class="mt-8 text-lg leading-relaxed text-white/90 md:text-xl">
+        Somos la Asociación de Madres y Padres de Alumnos del Colegio Santa
+        Catalina de Sena. Una comunidad comprometida con la educación, la
+        colaboración y el bienestar integral del alumnado.
+      </p>
+
+      <!-- Strategic role explanation -->
+      <p class="mt-6 text-base leading-relaxed text-white/80 md:text-lg">
+        Nuestra labor es voluntaria, pero profundamente estratégica:
+      </p>
+
+      <!-- Key pillars — styled as a clean list, well indented and vertically centered to bullets -->
+      <ul class="mx-auto mt-4 max-w-lg space-y-3 pl-10 text-left md:pl-16">
+        <li class="flex items-center gap-3 text-base leading-relaxed text-white/80 md:text-lg">
+          <span class="block h-2 w-2 min-w-2 rounded-full bg-accent-200" aria-hidden="true"></span>
+          Apoyamos al centro educativo
+        </li>
+        <li class="flex items-center gap-3 text-base leading-relaxed text-white/80 md:text-lg">
+          <span class="block h-2 w-2 min-w-2 rounded-full bg-accent-200" aria-hidden="true"></span>
+          Proponemos nuevas ideas y proyectos para que nuestro colegio sea el
+          espacio seguro y de referencia que todos queremos
+        </li>
+        <li class="flex items-center gap-3 text-base leading-relaxed text-white/80 md:text-lg">
+          <span class="block h-2 w-2 min-w-2 rounded-full bg-accent-200" aria-hidden="true"></span>
+          Promovemos valores, y generamos espacios de participación que
+          enriquecen la experiencia escolar
+        </li>
+      </ul>
+
+      <!-- Closing statement -->
+      <p class="mt-8 text-lg font-medium leading-relaxed text-white md:text-xl">
+        Juntos, construimos una comunidad escolar más fuerte, inclusiva y
+        enriquecedora.
+      </p>
+
+      <!-- CTA button -->
+      <div class="mt-10">
+        <a
+          href="/quienes-somos"
+          class="inline-block rounded-full border-2 border-white bg-transparent px-8 py-3 text-lg font-semibold text-white shadow-md transition-all duration-300 hover:border-accent-200 hover:bg-accent-200 hover:text-primary-900 focus:outline-none focus:ring-2 focus:ring-accent-200 focus:ring-offset-2 focus:ring-offset-primary-800"
+        >
+          Conócenos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!--
+    ============================================================
+    LATEST ARTICLES — Preview of the 3 newest posts
+    Sits on a warm gray background to visually separate it from
+    the hero and mission sections.
+    ============================================================
+  -->
+  <section class="bg-gray-50 px-4 py-16 md:py-24">
+    <div class="mx-auto max-w-6xl">
+      <div class="text-center">
+        <h2 class="heading-underline heading-underline-center text-2xl font-bold text-primary-700 md:text-3xl">
+          Últimas noticias
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-body-light">
+          Entérate de lo último que está pasando en nuestra comunidad educativa.
+        </p>
+      </div>
+
+      <!-- Article cards grid -->
+      <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {latestArticles.map((article) => (
+          <ArticleCard
+            title={article.data.title}
+            date={article.data.date}
+            excerpt={article.data.excerpt}
+            author={article.data.author}
+            featuredImage={article.data.featuredImage}
+            slug={article.id}
+          />
+        ))}
+      </div>
+
+      <!-- Link to all articles -->
+      <div class="mt-12 text-center">
+        <a
+          href="/noticias"
+          class="inline-block rounded-full bg-primary-600 px-8 py-3 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-accent-200 hover:text-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        >
+          Ver todas las noticias
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!--
+    ============================================================
+    EN QUÉ ESTAMOS TRABAJANDO — Future projects preview
+    Shows a compact grid of upcoming AMPA initiatives with a
+    link to the full Actividades page.
+    ============================================================
+  -->
+  <section class="px-4 py-16 md:py-24">
+    <div class="mx-auto max-w-5xl">
+      <div class="text-center">
+        <h2 class="heading-underline heading-underline-center text-2xl font-bold text-primary-700 md:text-3xl">
+          En qué estamos trabajando
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-body-light">
+          Proyectos e iniciativas que estamos preparando para nuestra comunidad.
+        </p>
+      </div>
+
+      <!-- Compact future project cards — 2 columns on tablet, 3 on desktop -->
+      <div class="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5 transition-shadow hover:shadow-md">
+          <p class="font-semibold text-body">🏫 Banco de Uniformes y Libros</p>
+          <p class="mt-1 text-sm text-body-light">Reutilización solidaria de uniformes y material escolar entre familias.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5 transition-shadow hover:shadow-md">
+          <p class="font-semibold text-body">🤝 Plan Familia Tutor</p>
+          <p class="mt-1 text-sm text-body-light">Programa de acogida para acompañar a las nuevas familias del colegio.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5 transition-shadow hover:shadow-md">
+          <p class="font-semibold text-body">☕ Desayuno Solidario</p>
+          <p class="mt-1 text-sm text-body-light">Evento benéfico para recaudar fondos destinados a campañas solidarias.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5 transition-shadow hover:shadow-md">
+          <p class="font-semibold text-body">📣 El Catas está abierto</p>
+          <p class="mt-1 text-sm text-body-light">Apertura del colegio los fines de semana para actividades abiertas al barrio.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5 transition-shadow hover:shadow-md">
+          <p class="font-semibold text-body">👨‍👩‍👧 Escuela de Padres</p>
+          <p class="mt-1 text-sm text-body-light">Talleres formativos para familias en colaboración con el Centro.</p>
+        </div>
+
+        <div class="rounded-xl border-l-4 border-accent-400 bg-accent-50 p-5 transition-shadow hover:shadow-md">
+          <p class="font-semibold text-body">⚽ Iniciativas Deportivas</p>
+          <p class="mt-1 text-sm text-body-light">Actividades deportivas para promover hábitos saludables.</p>
+        </div>
+      </div>
+
+      <!-- Link to full Actividades page -->
+      <div class="mt-12 text-center">
+        <a
+          href="/actividades"
+          class="inline-block rounded-full bg-primary-600 px-8 py-3 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-accent-200 hover:text-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        >
+          Ver todos los proyectos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!--
+    ============================================================
+    GRACIAS — Thank you message + ways to participate
+    Two side-by-side cards on desktop, stacked on mobile.
+    ============================================================
+  -->
+  <section class="bg-gray-50 px-4 py-16 md:py-24">
+    <div class="mx-auto max-w-5xl">
+      <div class="text-center">
+        <h2 class="heading-underline heading-underline-center text-2xl font-bold text-primary-700 md:text-3xl">
+          Todo esto ha sido posible gracias a vosotros
+        </h2>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+        <!--
+          Card 1: Thank you message.
+          Dark burgundy gradient background for emotional impact,
+          white text to stand out from the rest of the page.
+        -->
+        <div class="rounded-2xl bg-gradient-to-br from-primary-800 to-primary-900 p-8 text-white shadow-md md:p-10">
+          <p class="text-lg leading-relaxed text-white/90">
+            Gracias a todas las familias por vuestro apoyo constante.
+          </p>
+          <p class="mt-4 text-lg leading-relaxed text-white/90">
+            Gracias al colegio por su colaboración y compromiso.
+          </p>
+          <p class="mt-4 text-lg leading-relaxed text-white/90">
+            Juntos, seguimos construyendo una comunidad educativa fuerte,
+            inclusiva y con visión de futuro.
+          </p>
+          <p class="mt-6 text-xl font-bold text-accent-200">
+            ¡Este AMPA es de todos y para todos!
+          </p>
+        </div>
+
+        <!--
+          Card 2: Ways to participate.
+          White background with accent-colored bullet points.
+        -->
+        <div class="rounded-2xl bg-white p-8 shadow-md md:p-10">
+          <h3 class="text-xl font-bold text-primary-700">
+            ¡Tu participación suma!
+          </h3>
+          <p class="mt-3 text-base font-medium text-body-light">
+            Formas de colaborar:
+          </p>
+          <ul class="mt-4 space-y-4">
+            <li class="flex items-center gap-3 text-base leading-relaxed text-body-light">
+              <span class="block h-2 w-2 min-w-2 rounded-full bg-accent-400" aria-hidden="true"></span>
+              <span><span class="font-semibold text-body">Voluntariado:</span> Únete a nuestras vocalías y proyectos.</span>
+            </li>
+            <li class="flex items-center gap-3 text-base leading-relaxed text-body-light">
+              <span class="block h-2 w-2 min-w-2 rounded-full bg-accent-400" aria-hidden="true"></span>
+              <span><span class="font-semibold text-body">Asistencia a eventos:</span> Participa activamente.</span>
+            </li>
+            <li class="flex items-center gap-3 text-base leading-relaxed text-body-light">
+              <span class="block h-2 w-2 min-w-2 rounded-full bg-accent-400" aria-hidden="true"></span>
+              <span><span class="font-semibold text-body">Propuestas e ideas:</span> ¡Queremos escucharte!</span>
+            </li>
+            <li class="flex items-center gap-3 text-base leading-relaxed text-body-light">
+              <span class="block h-2 w-2 min-w-2 rounded-full bg-accent-400" aria-hidden="true"></span>
+              <span><span class="font-semibold text-body">Formar parte de la Junta:</span> Impulsa el cambio desde dentro.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-12 text-center">
+        <a
+          href="/contacto"
+          class="inline-block rounded-full bg-primary-600 px-8 py-3 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-accent-200 hover:text-primary-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+        >
+          Contacta con nosotros
+        </a>
+      </div>
+    </div>
   </section>
 </BaseLayout>

@@ -1,0 +1,71 @@
+---
+/*
+  TeamCard: A reusable card for displaying a team member's info.
+  Shows a circular photo (or a fallback avatar with initials),
+  their name in bold, role as a subtitle in the accent color,
+  and a short description paragraph.
+
+  Props:
+  - name: full name of the team member (or members, for shared roles)
+  - role: their position on the Junta Directiva
+  - description: a brief summary of their responsibilities
+  - initials: 1-2 letters to display inside the fallback avatar
+  - photo: (optional) URL to a portrait image — if omitted, shows initials
+*/
+
+interface Props {
+  name: string;
+  role: string;
+  description: string;
+  initials: string;
+  photo?: string;
+}
+
+const { name, role, description, initials, photo } = Astro.props;
+---
+
+<!--
+  Card container — white background with a subtle shadow for depth.
+  Uses flex layout so the avatar sits to the left of the text on wider screens
+  and stacks vertically on very narrow cards.
+-->
+<article class="flex flex-col items-center gap-5 rounded-2xl bg-white p-6 shadow-md sm:flex-row sm:items-start">
+  <!--
+    Circular avatar area.
+    If a photo URL is provided, shows the image.
+    Otherwise, falls back to burgundy circle with white initials.
+  -->
+  {photo ? (
+    <img
+      src={photo}
+      alt={`Foto de ${name}`}
+      class="h-16 w-16 min-h-16 min-w-16 rounded-full object-cover"
+      loading="lazy"
+    />
+  ) : (
+    <div
+      class="flex h-16 w-16 min-h-16 min-w-16 items-center justify-center rounded-full bg-primary-600 text-xl font-bold text-white"
+      aria-hidden="true"
+    >
+      {initials}
+    </div>
+  )}
+
+  <!-- Text content: name, role subtitle, and description -->
+  <div class="text-center sm:text-left">
+    <!-- Name — bold, dark body color for strong readability -->
+    <h3 class="text-lg font-bold text-body">
+      {name}
+    </h3>
+
+    <!-- Role — uses the accent-600 (dark lime green) for a subtle pop of color -->
+    <p class="mt-0.5 text-sm font-semibold text-accent-600">
+      {role}
+    </p>
+
+    <!-- Description — secondary text color for softer contrast -->
+    <p class="mt-2 text-sm leading-relaxed text-body-light">
+      {description}
+    </p>
+  </div>
+</article>
