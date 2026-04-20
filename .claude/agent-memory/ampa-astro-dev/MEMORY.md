@@ -1,2 +1,0 @@
-- [Design direction](project_design_direction.md) — burgundy + lime-green palette matching Dominicas Madrid school site
-- [Decap CMS setup](project_decap_cms_setup.md) — git-gateway backend, articles + events collections, Spanish locale, media in public/images/uploads
