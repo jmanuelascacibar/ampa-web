@@ -24,7 +24,7 @@ backend:
 # When working locally, uncomment the next two lines so the CMS writes
 # directly to your local files instead of requiring Netlify authentication.
 # Remember to comment them out again before deploying!
-local_backend: true
+# local_backend: true
 
 # --- Media / Images ---
 # For now, images are stored in the repo under public/images/uploads.
