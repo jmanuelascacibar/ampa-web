@@ -65,12 +65,15 @@ const formattedDate = article.data.date.toLocaleDateString("es-ES", {
       <span class="font-semibold text-accent-600">{article.data.author}</span>
     </p>
 
-    <!-- Tags as small pill badges -->
+    <!-- Tags — link back to Noticias filtered by that tag -->
     <div class="mt-4 flex flex-wrap gap-2">
       {article.data.tags.map((tag) => (
-        <span class="inline-block rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700">
+        <a
+          href={`/noticias?tag=${encodeURIComponent(tag)}`}
+          class="inline-block rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700 transition-colors hover:bg-primary-600 hover:text-white"
+        >
           {tag}
-        </span>
+        </a>
       ))}
     </div>
 

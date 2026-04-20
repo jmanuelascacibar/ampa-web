@@ -20,9 +20,10 @@ interface Props {
   author: string;
   featuredImage: string;
   slug: string;
+  tags?: string[];
 }
 
-const { title, date, excerpt, author, featuredImage, slug } = Astro.props;
+const { title, date, excerpt, author, featuredImage, slug, tags = [] } = Astro.props;
 
 // Format the date in Spanish: "15 de noviembre de 2025"
 const formattedDate = date.toLocaleDateString("es-ES", {
@@ -66,6 +67,20 @@ const formattedDate = date.toLocaleDateString("es-ES", {
     <p class="mt-1 text-sm font-semibold text-accent-600">
       {author}
     </p>
+
+    <!-- Tags -->
+    {tags.length > 0 && (
+      <div class="mt-2 flex flex-wrap gap-1">
+        {tags.map(tag => (
+          <button
+            data-tag-filter={tag}
+            class="rounded-full bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary-700 transition-colors hover:bg-primary-600 hover:text-white"
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
+    )}
 
     <!-- Excerpt — secondary text, grows to push the button down -->
     <p class="mt-3 flex-1 text-sm leading-relaxed text-body-light">

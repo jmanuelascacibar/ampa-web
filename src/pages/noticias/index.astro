@@ -12,6 +12,9 @@ import ArticleCard from "../../components/article-card.astro";
 // Fetch all articles and sort by date (newest first)
 const articles = await getCollection("articles");
 articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Collect all unique tags across all articles
+const allTags = [...new Set(articles.flatMap(a => a.data.tags))].sort();
 ---
 
 <BaseLayout
@@ -54,6 +57,26 @@ articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
         </h2>
       </div>
 
+      <!-- Tag filter bar -->
+      {allTags.length > 0 && (
+        <div class="mt-8 flex flex-wrap justify-center gap-2" id="tag-filters">
+          <button
+            data-filter="all"
+            class="rounded-full border border-primary-600 bg-primary-600 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
+          >
+            Todas
+          </button>
+          {allTags.map(tag => (
+            <button
+              data-filter={tag}
+              class="rounded-full border border-primary-300 bg-white px-4 py-1.5 text-sm text-primary-700 transition-colors hover:bg-primary-50"
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      )}
+
       <!--
         Responsive grid:
         - Mobile: 1 column
@@ -62,16 +85,63 @@ articles.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
       -->
       <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {articles.map((article) => (
-          <ArticleCard
-            title={article.data.title}
-            date={article.data.date}
-            excerpt={article.data.excerpt}
-            author={article.data.author}
-            featuredImage={article.data.featuredImage}
-            slug={article.id}
-          />
+          <div data-tags={article.data.tags.join(',')}>
+            <ArticleCard
+              title={article.data.title}
+              date={article.data.date}
+              excerpt={article.data.excerpt}
+              author={article.data.author}
+              featuredImage={article.data.featuredImage}
+              tags={article.data.tags}
+              slug={article.id}
+            />
+          </div>
         ))}
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('#tag-filters [data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-tags]');
+
+  const activeClasses = ['bg-primary-600', 'text-white', 'border-primary-600', 'font-semibold'];
+  const inactiveClasses = ['bg-white', 'text-primary-700', 'border-primary-300'];
+
+  function applyFilter(selected: string) {
+    // Update filter bar button styles
+    buttons.forEach(b => {
+      b.classList.remove(...activeClasses);
+      b.classList.add(...inactiveClasses);
+    });
+    const activeBtn = [...buttons].find(b => b.dataset.filter === selected);
+    activeBtn?.classList.remove(...inactiveClasses);
+    activeBtn?.classList.add(...activeClasses);
+
+    // Show/hide cards
+    cards.forEach(card => {
+      if (selected === 'all') {
+        card.hidden = false;
+      } else {
+        const tags = card.dataset.tags?.split(',').map(t => t.trim()).filter(Boolean) ?? [];
+        card.hidden = !tags.includes(selected);
+      }
+    });
+  }
+
+  // Filter bar buttons
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => applyFilter(btn.dataset.filter!));
+  });
+
+  // Tag pills inside cards
+  document.querySelectorAll<HTMLButtonElement>('[data-tag-filter]').forEach(pill => {
+    pill.addEventListener('click', () => applyFilter(pill.dataset.tagFilter!));
+  });
+
+  // Auto-apply filter from ?tag= URL param (e.g. coming from an article page)
+  const params = new URLSearchParams(window.location.search);
+  const tagParam = params.get('tag');
+  if (tagParam) applyFilter(tagParam);
+</script>
