@@ -1,20 +1,34 @@
 ---
-title: "Gran fiesta de fin de curso 2025"
-author: "Rus de la Puente"
-date: 2025-06-20
-featuredImage: "https://picsum.photos/seed/fiesta-ampa/800/450"
-tags: ["eventos", "comunidad", "fiestas"]
-excerpt: "Celebramos juntos el final del curso con actividades para toda la familia, música en directo y mucha diversión."
+title: Charla de Alba Sanchez a nuestros alumnos
+author: Hugo Ascacibar
+date: 2025-12-10
+featuredImage: /images/uploads/albasanchez.jpeg
+tags:
+  - charlas_ampa
+excerpt: El alumnado se inspira con la boxeadora profesional Alba Sánchez en un
+  coloquio sobre valores deportivos
 ---
+El pasado mes de diciembre, las aulas del centro se llenaron de motivación con la visita de Alba Sánchez, boxeadora profesional y periodista. En un encuentro cercano y dinámico, los alumnos de Primaria y la ESO tuvieron la oportunidad de conocer de primera mano el testimonio de una deportista de élite que encarna los valores del esfuerzo y la superación personal.
 
-El pasado viernes 20 de junio, el AMPA del Colegio Santa Catalina de Sena organizó la ya tradicional **fiesta de fin de curso** en el patio del colegio. Fue una tarde inolvidable en la que participaron más de 200 familias.
 
-## Actividades para todos
+## Una trayectoria de éxito y constancia
 
-Los más pequeños disfrutaron de castillos hinchables, talleres de pintura facial y juegos tradicionales. Para los mayores, organizamos un torneo de fútbol padres contra hijos que, como siempre, ¡ganaron los niños!
+Alba Sánchez acudió al colegio tras haber sido proclamada por la European Boxing Union (EBU) como aspirante oficial al título europeo del peso pluma. Durante su intervención, la púgil compartió cómo compagina su faceta como periodista con las exigencias del alto rendimiento, destacando que la constancia es la clave para alcanzar metas tanto académicas como deportivas.
 
-## Agradecimientos
 
-Queremos dar las gracias a todas las familias voluntarias que hicieron posible este evento, al equipo de cocina que preparó las meriendas y al grupo de música del colegio que nos deleitó con sus actuaciones.
 
-¡Nos vemos en septiembre con más energía que nunca!
+Los alumnos se mostraron especialmente interesados en su preparación para el combate por el título europeo, programado para inicios de este año, y en cómo ha logrado derribar barreras en un deporte tan exigente como el boxeo.
+
+
+
+## Colaboración y organización
+
+El evento fue posible gracias a la gestión y financiación de la Vocalía de Deportes del AMPA, dirigida por Rus Puente, cuyo compromiso con el fomento de hábitos saludables y valores entre el alumnado fue fundamental para llevar a cabo la actividad.
+
+
+
+Asimismo, la jornada contó con la estrecha colaboración de Eva Juárez Bonilla, profesora de Educación Física de Secundaria y Bachillerato, quien coordinó la integración del coloquio dentro de la planificación pedagógica del centro, asegurando que el mensaje de Alba Sánchez resonara con fuerza entre los estudiantes de las diferentes etapas.
+
+
+
+"Su ejemplo de esfuerzo y superación ha resultado especialmente inspirador para nuestros alumnos, recordándoles que con trabajo y disciplina no hay meta inalcanzable."

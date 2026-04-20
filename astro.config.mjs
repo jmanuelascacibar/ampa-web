@@ -7,5 +7,8 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
-  }
+  },
+  image: {
+    domains: ["picsum.photos", "res.cloudinary.com"],
+  },
 });

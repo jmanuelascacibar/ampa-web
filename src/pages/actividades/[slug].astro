@@ -1,0 +1,80 @@
+---
+import { getCollection, render } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/base-layout.astro";
+
+export const getStaticPaths = (async () => {
+  const events = await getCollection("events");
+  return events.map((event) => ({
+    params: { slug: event.id },
+    props: { event },
+  }));
+}) satisfies GetStaticPaths;
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+
+const formattedDate = event.data.date.toLocaleDateString("es-ES", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+const isUpcoming = event.data.status === "upcoming";
+---
+
+<BaseLayout
+  title={`${event.data.title} — Actividades AMPA`}
+  description={event.data.description}
+>
+  <article class="mx-auto max-w-3xl px-4 py-12 md:py-20">
+    <a
+      href="/actividades"
+      class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 transition-colors hover:text-primary-800"
+    >
+      ← Volver a actividades
+    </a>
+
+    {event.data.featuredImage && (
+      <img
+        src={event.data.featuredImage}
+        alt={event.data.title}
+        class="mt-6 aspect-video w-full rounded-2xl object-contain bg-gray-100 shadow-md"
+      />
+    )}
+
+    <div class="mt-6 flex items-center gap-3">
+      <span class={`rounded-full px-3 py-1 text-xs font-semibold ${isUpcoming ? "bg-accent-100 text-accent-700" : "bg-gray-100 text-gray-500"}`}>
+        {isUpcoming ? "Próximamente" : "Realizada"}
+      </span>
+    </div>
+
+    <h1 class="mt-4 text-3xl font-extrabold text-body md:text-4xl">
+      {event.data.title}
+    </h1>
+
+    <div class="mt-4 space-y-1 text-base text-body-light">
+      <p>📅 <time datetime={event.data.date.toISOString()}>{formattedDate}</time>{event.data.time && ` · ${event.data.time}`}</p>
+      {event.data.location && <p>📍 {event.data.location}</p>}
+    </div>
+
+    <div class="prose prose-lg mt-10 max-w-none prose-headings:text-body prose-a:text-primary-600 prose-strong:text-body prose-th:text-body">
+      <Content />
+    </div>
+
+    <div class="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-gray-200 pt-8">
+      <a
+        href="/actividades"
+        class="inline-flex items-center gap-1 text-sm font-medium text-primary-600 transition-colors hover:text-primary-800"
+      >
+        ← Volver a actividades
+      </a>
+      <a
+        href="/contacto"
+        class="inline-block rounded-full bg-primary-600 px-6 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-accent-200 hover:text-primary-900"
+      >
+        Contacta con nosotros
+      </a>
+    </div>
+  </article>
+</BaseLayout>

@@ -46,12 +46,14 @@ const formattedDate = article.data.date.toLocaleDateString("es-ES", {
       ← Volver a noticias
     </a>
 
-    <!-- Featured image — full width, rounded, with shadow -->
-    <img
-      src={article.data.featuredImage}
-      alt={article.data.title}
-      class="mt-6 aspect-video w-full rounded-2xl object-cover shadow-md"
-    />
+    <!-- Featured image — only rendered when an image is set -->
+    {article.data.featuredImage && (
+      <img
+        src={article.data.featuredImage}
+        alt={article.data.title}
+        class="mt-6 aspect-video w-full rounded-2xl object-contain shadow-md bg-gray-100"
+      />
+    )}
 
     <!-- Article title -->
     <h1 class="mt-8 text-3xl font-extrabold text-body md:text-4xl">
