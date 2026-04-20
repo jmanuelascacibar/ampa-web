@@ -32,7 +32,7 @@ import SiteFooter from "../components/site-footer.astro";
   <head>
     <meta charset="utf-8" />
     <!-- Redirect Netlify Identity tokens to /admin before the page renders -->
-    <script>
+    <script is:inline>
       var h = window.location.hash;
       if (h.includes('invite_token') || h.includes('recovery_token') || h.includes('confirmation_token')) {
         window.location.replace('/admin/' + h);
