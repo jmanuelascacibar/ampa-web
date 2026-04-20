@@ -1,0 +1,184 @@
+# =============================================================================
+# Decap CMS Configuration
+# =============================================================================
+#
+# This file tells the admin panel (/admin) what content it can manage.
+# Each "collection" maps to a folder of markdown files in src/content/.
+#
+# IMPORTANT: When you deploy to Netlify, you must enable "Identity" and
+# "Git Gateway" in the Netlify dashboard for the CMS login to work:
+#   1. Go to Netlify > Site settings > Identity > Enable Identity
+#   2. Under Identity > Services > Git Gateway > Enable Git Gateway
+#   3. Invite yourself as a user under Identity > Invite users
+#
+# For LOCAL development, you can run "npx decap-server" and the CMS
+# will save files directly to disk without needing authentication.
+# =============================================================================
+
+# --- Backend: how the CMS connects to your Git repo ---
+backend:
+  name: git-gateway       # Uses Netlify Identity + Git Gateway (no token needed)
+  branch: main             # The branch where edits are committed
+
+# --- Local backend for development (uncomment to enable) ---
+# When working locally, uncomment the next two lines so the CMS writes
+# directly to your local files instead of requiring Netlify authentication.
+# Remember to comment them out again before deploying!
+local_backend: true
+
+# --- Media / Images ---
+# For now, images are stored in the repo under public/images/uploads.
+# This keeps things simple. Later, we can switch to Cloudinary.
+media_folder: "public/images/uploads"   # Where uploaded files are saved on disk
+public_folder: "/images/uploads"        # The URL path used in markdown content
+
+# --- Locale: Spanish interface ---
+locale: "es"
+
+# --- Slug settings: how filenames are generated from titles ---
+slug:
+  encoding: "ascii"        # Convert Spanish characters (á, ñ, etc.) to ASCII
+  clean_accents: true      # Remove accents for cleaner filenames
+  sanitize_replacement: "-" # Replace spaces and special chars with hyphens
+
+# =============================================================================
+# COLLECTIONS — Each collection = one type of content
+# =============================================================================
+collections:
+
+  # ---------------------------------------------------------------------------
+  # NOTICIAS (Articles / Blog posts)
+  # ---------------------------------------------------------------------------
+  # Maps to: src/content/articles/*.md
+  # Each file = one news article displayed on the Noticias page
+  # ---------------------------------------------------------------------------
+  - name: "articles"
+    label: "Noticias"
+    label_singular: "Noticia"
+    folder: "src/content/articles"
+    create: true                         # Allow creating new articles
+    slug: "{{slug}}"                     # Filename derived from title
+    sortable_fields: ["date", "title"]
+    summary: "{{title}} — {{date}}"
+    description: "Noticias y artículos del AMPA. Aquí se publican las novedades, crónicas de eventos y comunicados para las familias."
+    fields:
+      # --- Title ---
+      - label: "Título"
+        name: "title"
+        widget: "string"
+        hint: "El título principal de la noticia"
+
+      # --- Author ---
+      - label: "Autor/a"
+        name: "author"
+        widget: "string"
+        hint: "Nombre de quien escribe el artículo"
+
+      # --- Publication date ---
+      - label: "Fecha de publicación"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"        # Display format in the editor
+        time_format: false                # We only need the date, not the time
+        format: "YYYY-MM-DD"             # How it's saved in the frontmatter
+        hint: "Fecha en la que se publica la noticia"
+
+      # --- Featured image ---
+      - label: "Imagen destacada"
+        name: "featuredImage"
+        widget: "image"
+        required: false
+        hint: "Imagen principal que aparece en la tarjeta de la noticia. Recomendado: 800x450 píxeles."
+
+      # --- Tags ---
+      - label: "Etiquetas"
+        name: "tags"
+        widget: "list"
+        hint: "Etiquetas separadas por comas (ej: eventos, comunidad, talleres)"
+        default: []
+
+      # --- Excerpt ---
+      - label: "Resumen"
+        name: "excerpt"
+        widget: "text"
+        hint: "Breve descripción que aparece en la tarjeta de la noticia (1-2 frases)"
+
+      # --- Body (the main content) ---
+      - label: "Contenido"
+        name: "body"
+        widget: "markdown"
+        hint: "El contenido completo del artículo. Puedes usar encabezados, listas, negritas, enlaces e imágenes."
+
+  # ---------------------------------------------------------------------------
+  # ACTIVIDADES (Events)
+  # ---------------------------------------------------------------------------
+  # Maps to: src/content/events/*.md
+  # Each file = one event (upcoming or past) displayed on the Actividades page
+  # ---------------------------------------------------------------------------
+  - name: "events"
+    label: "Actividades"
+    label_singular: "Actividad"
+    folder: "src/content/events"
+    create: true
+    slug: "{{slug}}"
+    sortable_fields: ["date", "title"]
+    summary: "{{title}} — {{date}}"
+    description: "Actividades y eventos organizados por el AMPA: excursiones, talleres, fiestas, reuniones, etc."
+    fields:
+      # --- Title ---
+      - label: "Título"
+        name: "title"
+        widget: "string"
+        hint: "Nombre de la actividad o evento"
+
+      # --- Date ---
+      - label: "Fecha del evento"
+        name: "date"
+        widget: "datetime"
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+        hint: "Fecha en la que se celebra la actividad"
+
+      # --- Time ---
+      - label: "Hora"
+        name: "time"
+        widget: "string"
+        required: false
+        hint: "Hora de inicio (ej: 10:00, 17:30). Déjalo vacío si no hay hora fija."
+
+      # --- Location ---
+      - label: "Lugar"
+        name: "location"
+        widget: "string"
+        required: false
+        hint: "Dónde se celebra la actividad (ej: Patio del colegio, Salón de actos)"
+
+      # --- Featured image ---
+      - label: "Imagen destacada"
+        name: "featuredImage"
+        widget: "image"
+        required: false
+        hint: "Imagen representativa de la actividad. Recomendado: 800x450 píxeles."
+
+      # --- Status ---
+      - label: "Estado"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Próximamente", value: "upcoming" }
+          - { label: "Realizada", value: "past" }
+        default: "upcoming"
+        hint: "Marca como 'Realizada' cuando la actividad ya ha pasado"
+
+      # --- Description / Excerpt ---
+      - label: "Descripción breve"
+        name: "description"
+        widget: "text"
+        hint: "Resumen corto que aparece en la tarjeta del evento (1-2 frases)"
+
+      # --- Body (detailed description) ---
+      - label: "Contenido"
+        name: "body"
+        widget: "markdown"
+        hint: "Descripción detallada de la actividad: programa, precios, información práctica, etc."
