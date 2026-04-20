@@ -36,6 +36,13 @@ import SiteFooter from "../components/site-footer.astro";
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <!-- Netlify Identity Widget — handles invite/recovery tokens that land on the homepage -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+      if (window.location.hash.includes('invite_token') || window.location.hash.includes('recovery_token')) {
+        window.location.href = '/admin/' + window.location.hash;
+      }
+    </script>
   </head>
   <!-- Body uses the dark charcoal color (--color-body) from the school's palette -->
   <body class="min-h-screen bg-white text-body font-sans">
