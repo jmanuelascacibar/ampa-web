@@ -19,15 +19,11 @@
       edit made through the admin panel creates a real Git commit.
     -->
 
-    <!-- Netlify Identity Widget — required for authentication -->
+    <!-- Netlify Identity Widget — must load early for auth -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <!-- Decap CMS script — loads the entire admin interface -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </head>
   <body>
-    <!--
-      Decap CMS replaces the body content with its own React app.
-      You don't need to add any HTML here — the script handles everything.
-    -->
+    <!-- Decap CMS mounts here — script must be at end of body so the DOM is ready -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </body>
 </html>
