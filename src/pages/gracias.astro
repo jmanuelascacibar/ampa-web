@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/base-layout.astro";
+---
+
+<BaseLayout
+  title="Mensaje enviado — AMPA Colegio Santa Catalina de Sena"
+  description="Hemos recibido tu mensaje. Nos pondremos en contacto contigo pronto."
+>
+  <section class="flex min-h-[60vh] items-center justify-center px-4 py-24">
+    <div class="mx-auto max-w-lg text-center">
+      <!-- Checkmark icon -->
+      <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-primary-50">
+        <svg class="h-10 w-10 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+      </div>
+
+      <h1 class="mt-6 text-3xl font-extrabold text-body">
+        ¡Mensaje recibido!
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-body-light">
+        Gracias por ponerte en contacto con nosotros. Te responderemos lo antes posible.
+      </p>
+
+      <a
+        href="/"
+        class="mt-8 inline-block rounded-full bg-primary-600 px-8 py-3 text-base font-semibold text-white shadow-md transition-all duration-300 hover:bg-accent-200 hover:text-primary-900"
+      >
+        Volver al inicio
+      </a>
+    </div>
+  </section>
+</BaseLayout>
